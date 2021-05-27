@@ -11,7 +11,7 @@ function Routes(){
         <Route path="/" exact component={Logon} />
         <Route path="/register" component={Register} />
 
-        <Route path="/session" compoent={Session} />
+        <Route path="/session" component={Session} />
       </Switch>
     </BrowserRouter>
     

@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
-//import  AsyncStorage  from '@react-native-async-storage/async-storage'
 import api from '../../services/api'
 
 export default function Register(){
@@ -21,13 +20,13 @@ export default function Register(){
       })
 
       const info = response.data;
-      //console.log(response.data.email);
+      console.log(response.data.user.email);
 
       localStorage.setItem('token', info.token);
       localStorage.setItem('user',  JSON.stringify(info.user));
 
       alert("Logado!");
-      history.push('/');
+      history.push('/session');
     }
     catch(error){
       if(error){
