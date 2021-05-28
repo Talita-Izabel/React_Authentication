@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import api from '../../services/api'
+import { Title, Div, Forms } from './styles';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 export default function Register(){
   const [name, setName] = useState('');
@@ -13,40 +16,52 @@ export default function Register(){
     e.preventDefault();
     
     try{
-      const response = await api.post('/', {
+      const response = await api.post('/register', {
         name,
         email,
         password,
       })
 
       const info = response.data;
-      console.log(response.data.user.email);
+      console.log(response.data.user.email, response.data.user.name);
 
-      localStorage.setItem('token', info.token);
-      localStorage.setItem('user',  JSON.stringify(info.user));
+      localStorage.setItem('@noderest:token', info.token);
+      localStorage.setItem('@noderest:user',  JSON.stringify(info.user));
 
       alert("Logado!");
       history.push('/session');
     }
     catch(error){
       if(error){
+        console.log("ERROOOOOR");
         console.log(error);
-        /*this.setState({ errorMessage: error.data.error });
-        console.log(error);*/
       }
     }
   }
 
   return(
-    <div>
-      <form onSubmit={handleRegister} >
-        <h1>Register</h1>
-        <input placeholder='Nome' value={name} onChange={e => setName(e.target.value)} />
-        <input type="email" placeholder='E-mail' value={email} onChange={e => setEmail(e.target.value) } />
-        <input type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} />
-        <button className="button" type="submit">Registrar</button>
-      </form>
-      
-    </div>
+    <Div>
+      <Title>Registrar</Title>
+      <Forms onSubmit={handleRegister} >
+        <Form.Group>
+          <Form.Control placeholder='Nome' value={name} onChange={e => setName(e.target.value)} />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Control type="email" placeholder='E-mail' value={email} onChange={e => setEmail(e.target.value) } />
+        </Form.Group>
+
+        <Form.Group>
+        <Form.Control type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} />
+        </Form.Group>        
+        
+        <div className="text-center pt-3">
+          <Button block variant="secondary" type="submit">Registrar</Button>
+        </div>
+
+        <br />
+        <Link to="/">Já possui cadastro? Entrar! </Link>
+      </Forms>
+    </Div>
   );
 }

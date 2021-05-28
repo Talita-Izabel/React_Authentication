@@ -12,7 +12,29 @@ function generateToken(params = {}) {
   });
 }
 
-router.post('/', async(req, res) => {
+router.post('/register', async (req, res) => {
+  const { email } = req.body;
+  try{
+    //Verifica se o usuário já existe com o e-mail.
+    if( await User.findOne({ email }))
+      return res.status(400).send({ error: 'User already exists!' });
+
+    //Espera isso para continuar a executar (await).
+    const user = await User.create(req.body);
+
+    user.password = undefined;
+
+    return res.send({ 
+      user,
+      token: generateToken({ id: user.id }),  
+    });
+  }catch(err){
+    //return res.status(400).send({ error: 'Registration failed' }) ;
+    console.log(err);
+  }
+});
+
+/*router.post('/', async(req, res) => {
   const { email } = req.body;
 
   try{
@@ -31,7 +53,7 @@ router.post('/', async(req, res) => {
   catch(err){
     return res.status(400).send({ error: 'Registration failed'});
   }
-});
+});*/
 
 router.post('/authenticate', async(req, res) => {
   const { email, password } = req.body;
@@ -46,9 +68,9 @@ router.post('/authenticate', async(req, res) => {
 
   user.password = undefined;
 
-  res.send({ 
-    user, 
-    token: generateToken({ id: user.id }) ,
+  return res.send({
+    user,
+    token: generateToken({ id: user.id }),
   });
 });
 

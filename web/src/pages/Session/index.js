@@ -1,11 +1,22 @@
 import React from 'react';
-//import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import {Title} from './styles';
 
 export default function Session(){
+  const user =  JSON.parse( localStorage.getItem('@noderest:user') );
+  const history = useHistory();
+
+  function logout(){
+    localStorage.clear();
+
+    history.push('/');
+  }
+
   return(
     <div>
-      <h1>Usuário Logado!</h1>
-      
+      <Button onClick={logout} type = "button">Sair</Button>
+      <Title className="pt-4" >Olá, {user.name}! </Title>
     </div>
   );
 }
