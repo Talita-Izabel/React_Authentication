@@ -8,7 +8,7 @@ import Form from 'react-bootstrap/Form';
 export default function Logon(){
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  //const [state, setState] = useState('');
+  const [state, setState] = useState('');
 
   const history = useHistory();
 
@@ -33,8 +33,8 @@ export default function Logon(){
     }
     catch(error){
       if(error){
-        //setState({ errorMessage: error.data.error });
-        console.log( error );
+        setState({ errorMessage:  error.response.data.error  });
+        console.log('error', error.response.data.error );
       }
     }
   }
@@ -42,7 +42,7 @@ export default function Logon(){
   return(
     <Div>
       <Title>Login</Title>
-      {/* { !! state.errorMessage && <h2>{state.errorMessage}</h2> } */}
+      { !! state.errorMessage && <h2>{state.errorMessage}</h2> }
       <Forms onSubmit={handleLogin} >
         
         <Form.Group>

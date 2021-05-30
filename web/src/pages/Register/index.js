@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import api from '../../services/api'
+import api from '../../services/api';
 import { Title, Div, Forms } from './styles';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
